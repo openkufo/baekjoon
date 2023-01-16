@@ -1,0 +1,7 @@
+.vscode/
+README.md
+src/App.java
+bin/**
+.settings/**
+.classpath
+.project
