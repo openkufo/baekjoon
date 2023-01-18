@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
-public class Q2941 {
+public class Main {
 	private static final Set<String> CROATIA_ALPHABET = Collections.unmodifiableSet(new HashSet<String>(Arrays.asList("c=", "c-", "dz=", "d-", "lj", "nj", "s=", "z=")));
 	public static void main(String[] args) {
 		int alphabetCount = 0;
