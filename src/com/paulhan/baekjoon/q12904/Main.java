@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
-public class Q12904 {
+public class Main {
     /**
      * @param args
      * @throws IOException
