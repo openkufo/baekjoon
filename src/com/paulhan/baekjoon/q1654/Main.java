@@ -10,6 +10,11 @@ import java.util.StringTokenizer;
 
 public class Main {
     public static void main(String[] args) throws IOException {
+        long beforeTime = System.currentTimeMillis(); //코드 실행 전에 시간 받아오기
+        
+        //실험할 코드 추가
+                
+        
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         
@@ -31,8 +36,8 @@ public class Main {
         long max = 0;
         
         while (start <= end) {
-            mid = (start + end) / 2;
             sum = 0;
+            mid = (start + end) / 2;
             for(int i = 0; i < cables.length; i++){
                 sum += cables[i] / mid;
             }
@@ -51,6 +56,10 @@ public class Main {
         sb.append(max).append("\n");
         bw.write(sb.toString());
 
+        System.out.println("test");
+        long afterTime = System.currentTimeMillis(); // 코드 실행 후에 시간 받아오기
+        long secDiffTime = (afterTime - beforeTime)/1000; //두 시간에 차 계산
+        System.out.println("시간차이(m) : "+secDiffTime);
         bw.flush();
         bw.close();
         br.close();
