@@ -44,6 +44,7 @@ public class Main {
 
             if(sum >= n){
                 start = mid + 1;
+                System.out.println("mid : " + mid);
                 if(max < mid){
                     max = mid;
                 }

@@ -83,9 +83,9 @@ public class Main {
             }
         }
 
-        BigDecimal base36Code = new BigDecimal("0");
+        BigDecimal base36Code = BigDecimal.ZERO;
         StringTokenizer bufferTokenizer = new StringTokenizer(bufferTemp.toString());
-        int i = 1;
+        
         while(bufferTokenizer.hasMoreElements()){
             base36Code = base36Code.add(decodeBase36(bufferTokenizer.nextToken()));
         }
