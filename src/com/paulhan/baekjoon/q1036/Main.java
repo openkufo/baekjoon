@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,54 +32,52 @@ public class Main {
         
         for(int i = 0; i < n; i++){
             String buffer = br.readLine();
-
             bufferTemp.append(buffer).append(" ");
             saveList(buffer);
         }
 
         int k = Integer.parseInt(br.readLine());
         StringBuilder bufferBuilder = new StringBuilder();
+
         while(k > 0){
             if(bufferLengthMap.isEmpty()){
                 break;
             }
 
             List<Integer> keyList = new ArrayList<Integer>(bufferLengthMap.keySet());
-            Collections.reverse(keyList);
-
-            for(Integer key : keyList){
-                List<String> bufferList = bufferLengthMap.get(key);
-                bufferList.sort((String o1, String o2) -> o1.compareTo(o2));
-                for(int i = 0; i < bufferList.size(); i++){
-                    String buffer = bufferList.get(i);
-                    if(buffer.equals("")){
-                        break;
-                    }
-
-                    char firstChar = buffer.charAt(0);
-                    
-                    buffer = buffer.substring(1);
-                    
-                    saveList(buffer);
-
-                    boolean hasFirstCharacter = bufferBuilder.indexOf(Character.toString(firstChar)) >= 0;
-                    if(firstChar == 'Z' || hasFirstCharacter){
-                        continue;
-                    }
-
-                    bufferBuilder.append(firstChar).append(" ");
-                    bufferTemp = new StringBuilder(bufferTemp.toString().replaceAll(Character.toString(firstChar), "Z"));
-                    k--;
-
-                    if(k == 0){
-                        break;
-                    }
-                }
-                bufferLengthMap.remove(key);
-
-                // 길이가 가장 높은것만 반복하기위한 break
-                break;
+            if(keyList.isEmpty()){
+                continue;
             }
+            keyList.sort((o1, o2) -> o2.compareTo(o1));
+
+            int key = keyList.get(0);
+            List<String> bufferList = bufferLengthMap.get(key);
+
+            bufferList.sort((String o1, String o2) -> o1.compareTo(o2));
+            for(int i = 0; i < bufferList.size(); i++){
+                String buffer = bufferList.get(i);
+                if(buffer.equals("")){
+                    break;
+                }
+
+                char firstChar = buffer.charAt(0);
+                buffer = buffer.substring(1);
+                saveList(buffer);
+
+                boolean hasFirstCharacter = bufferBuilder.indexOf(Character.toString(firstChar)) >= 0;
+                if(firstChar == 'Z' || hasFirstCharacter){
+                    continue;
+                }
+
+                bufferBuilder.append(firstChar).append(" ");
+                bufferTemp = new StringBuilder(bufferTemp.toString().replaceAll(Character.toString(firstChar), "Z"));
+                k--;
+
+                if(k == 0){
+                    break;
+                }
+            }
+            bufferLengthMap.remove(key);
         }
 
         BigDecimal base36Code = BigDecimal.ZERO;
@@ -89,37 +86,17 @@ public class Main {
         while(bufferTokenizer.hasMoreElements()){
             base36Code = base36Code.add(decodeBase36(bufferTokenizer.nextToken()));
         }
-
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        // bw.write(encodeBase36(base36Code));
-        bw.write(encodeBase36(base36Code));
-        bw.flush();
-        bw.close();
-        br.close();
-
+        
+        System.out.println("testcase : " + encodeBase36(BigDecimal.valueOf(16)));
         System.out.println("test : " +base36Code.toString());
         System.out.println("bufferBuilder : " + bufferBuilder.toString());
         System.out.println("bufferTemp : " + bufferTemp.toString());
 
-        // long TO = new Main().decodeBase36("ZZZD");
-        // long BE = new Main().decodeBase36("ZZCK");
-        // long OR = new Main().decodeBase36("ZND");
-        // long NOT = new Main().decodeBase36("ZZVE");
-        // long TO2 = new Main().decodeBase36("ZZN");
-        // long BE2 = new Main().decodeBase36("BE");
-
-        // System.out.println(TO + BE + OR + NOT + TO2);
-        // System.out.println("test : " + new Main().decodeBase36("31YUB"));
-        // System.out.println("test3 : " + new Main().encodeBase36(5130659));
-
-        // boolean flag = true;
-        // while(flag){
-        //     StringBuilder sb = new StringBuilder();
-        //     int index = 0;
-            
-            
-        //     k--;
-        // }
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        bw.write(encodeBase36(base36Code));
+        bw.flush();
+        bw.close();
+        br.close();
     }
 
     private static void saveList(String buffer){
@@ -165,10 +142,9 @@ public class Main {
             remainder = remainder >= 10 ? remainder + BASE36_CODE_CHAR : remainder + BASE36_CODE_DIGIT;
             sb.append((char)remainder);
         }
-
+        
         return sb.reverse().toString();
     }
-
     // private static String encodeBase36(long decimal){
     //     StringBuilder sb = new StringBuilder();
     //     for(long quotient = decimal; quotient > 0; quotient/=BASE36){
@@ -178,5 +154,4 @@ public class Main {
     //     }
     //     return sb.reverse().toString();
     // }
-
 }
