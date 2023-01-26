@@ -28,6 +28,8 @@ public class Main {
         // String[] bufferStrings = {"GOOD", "LUCK", "AND", "HAVE", "FUN"};
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder bufferBuilder = new StringBuilder();
+        
         int n = Integer.parseInt(br.readLine());
         
         for(int i = 0; i < n; i++){
@@ -37,7 +39,6 @@ public class Main {
         }
 
         int k = Integer.parseInt(br.readLine());
-        StringBuilder bufferBuilder = new StringBuilder();
 
         while(k > 0){
             if(bufferLengthMap.isEmpty()){
@@ -48,7 +49,7 @@ public class Main {
             if(keyList.isEmpty()){
                 continue;
             }
-            keyList.sort((o1, o2) -> o2.compareTo(o1));
+            keyList.sort((Integer o1, Integer o2) -> o2.compareTo(o1));
 
             int key = keyList.get(0);
             List<String> bufferList = bufferLengthMap.get(key);
@@ -93,7 +94,7 @@ public class Main {
         System.out.println("bufferTemp : " + bufferTemp.toString());
 
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        bw.write(encodeBase36(base36Code));
+        bw.write(encodeBase36(base36Code) + "\n");
         bw.flush();
         bw.close();
         br.close();
