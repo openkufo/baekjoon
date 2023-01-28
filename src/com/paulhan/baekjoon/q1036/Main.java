@@ -33,54 +33,57 @@ public class Main {
         
         for(int i = 0; i < n; i++){
             String buffer = br.readLine();
-
             bufferTemp.append(buffer).append(" ");
             saveList(buffer);
         }
 
         int k = Integer.parseInt(br.readLine());
         StringBuilder bufferBuilder = new StringBuilder();
+        
+        int keyIndex = 0;
         while(k > 0){
             if(bufferLengthMap.isEmpty()){
                 break;
             }
 
             List<Integer> keyList = new ArrayList<Integer>(bufferLengthMap.keySet());
-            Collections.reverse(keyList);
-
-            for(Integer key : keyList){
-                List<String> bufferList = bufferLengthMap.get(key);
-                bufferList.sort((String o1, String o2) -> o1.compareTo(o2));
-                for(int i = 0; i < bufferList.size(); i++){
-                    String buffer = bufferList.get(i);
-                    if(buffer.equals("")){
-                        break;
-                    }
-
-                    char firstChar = buffer.charAt(0);
-                    
-                    buffer = buffer.substring(1);
-                    
-                    saveList(buffer);
-
-                    boolean hasFirstCharacter = bufferBuilder.indexOf(Character.toString(firstChar)) >= 0;
-                    if(firstChar == 'Z' || hasFirstCharacter){
-                        continue;
-                    }
-
-                    bufferBuilder.append(firstChar).append(" ");
-                    bufferTemp = new StringBuilder(bufferTemp.toString().replaceAll(Character.toString(firstChar), "Z"));
-                    k--;
-
-                    if(k == 0){
-                        break;
-                    }
-                }
-                bufferLengthMap.remove(key);
-
-                // 길이가 가장 높은것만 반복하기위한 break
-                break;
+            keyList.sort((Integer o1, Integer o2) -> o2.compareTo(o1));
+            
+            if(keyIndex == keyList.size()){
+                keyIndex = 0;
+                continue;
             }
+
+            int key = keyList.get(keyIndex++);
+            List<String> bufferList = bufferLengthMap.get(key);
+            bufferList.sort((String o1, String o2) -> o1.compareTo(o2));
+
+            for(int i = 0; i < bufferList.size(); i++){
+                String buffer = bufferList.get(i);
+                if(buffer.equals("")){
+                    break;
+                }
+
+                char firstChar = buffer.charAt(0);
+                
+                buffer = buffer.substring(1);
+                
+                saveList(buffer);
+
+                boolean hasFirstCharacter = bufferBuilder.indexOf(Character.toString(firstChar)) >= 0;
+                if(firstChar == 'Z' || hasFirstCharacter){
+                    continue;
+                }
+
+                bufferBuilder.append(firstChar).append(" ");
+                bufferTemp = new StringBuilder(bufferTemp.toString().replaceAll(Character.toString(firstChar), "Z"));
+                k--;
+
+                if(k == 0){
+                    break;
+                }
+            }
+            bufferLengthMap.remove(key);
         }
 
         BigDecimal base36Code = BigDecimal.ZERO;
